@@ -50,6 +50,15 @@ npm run worker:deploy
 
 如果你发我 Cloudflare 凭据，我会只在当前终端会话里使用，不写入仓库文件。
 
+### GitHub Actions 自动部署
+
+仓库包含 `.github/workflows/deploy-cloudflare.yml`。每次有新代码 push 到 `main` 分支时，GitHub Actions 会自动执行 `npm ci` 和 `npm run worker:deploy`。
+
+需要在 GitHub 仓库的 `Settings` → `Secrets and variables` → `Actions` 中添加两个 Repository secrets：
+
+- `CLOUDFLARE_ACCOUNT_ID`
+- `CLOUDFLARE_API_TOKEN`
+
 ## 使用方式
 
 - `教师课件`：投屏翻页、显示/隐藏答案、课堂计时、查看本课结构。
