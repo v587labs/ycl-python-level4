@@ -42,7 +42,24 @@ function Quiz({ quizzes, onComplete }) {
   };
 
   const handleComplete = () => {
-    if (onComplete) onComplete(calculateScore(), earnedPoints);
+    if (!onComplete) return;
+
+    const quizAnswers = quizzes.map((quiz, index) => {
+      const userAnswer = answers[index] || {};
+      return {
+        questionIndex: index,
+        question: quiz.question,
+        selectedIndex: userAnswer.answer ?? null,
+        selectedOption: userAnswer.answer !== undefined ? quiz.options[userAnswer.answer] : null,
+        correctIndex: quiz.answer,
+        correctOption: quiz.options[quiz.answer],
+        correct: userAnswer.correct === true,
+        points: userAnswer.points || 0,
+        explanation: quiz.explanation || ''
+      };
+    });
+
+    onComplete(calculateScore(), earnedPoints, quizAnswers);
   };
 
   if (showResults) {

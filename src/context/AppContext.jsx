@@ -12,15 +12,27 @@ function initProgress() {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
-      return JSON.parse(stored);
+      return normalizeProgressData(JSON.parse(stored));
     }
   } catch (e) {
     console.error('Failed to load progress:', e);
   }
+  return createEmptyProgress();
+}
+
+function createEmptyProgress() {
   return {
     userId: 'local-user',
     lessons: {},
     lastUpdated: new Date().toISOString()
+  };
+}
+
+function normalizeProgressData(data) {
+  return {
+    userId: data.userId || 'local-user',
+    lessons: data.lessons || {},
+    lastUpdated: data.lastUpdated || new Date().toISOString()
   };
 }
 
@@ -117,7 +129,7 @@ export function AppProvider({ children }) {
     try {
       const data = JSON.parse(jsonString);
       if (data.lessons && typeof data.lessons === 'object') {
-        setProgress(data);
+        setProgress(normalizeProgressData(data));
         return { success: true };
       }
       return { success: false, error: 'Invalid data format' };

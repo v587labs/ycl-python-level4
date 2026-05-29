@@ -162,7 +162,7 @@ python-ycl-level4/
 | `lessons.js` | 29 课时完整数据 | 导出序章、四级主线和拓展挑战的教师页/学生页内容 |
 | `AppContext.jsx` | 全局状态管理 | 存储当前用户模式、进度数据 |
 | `judge.js` | 判题逻辑 | executeCode()、compareOutput()、formatError() |
-| `exportData.js` | 导入导出 | exportToJSON()、exportToCSV()、importFromJSON() |
+| `exportData.js` | 导入导出 | exportToJSON()、buildProgressExport()、importFromJSON() |
 
 ---
 
@@ -611,9 +611,9 @@ const testCases = [
    - 更新单个课时进度
    - 获取所有课时进度
 2. `exportData.js`：
-   - `exportToJSON()`: 导出所有进度为 JSON
+   - `exportToJSON()`: 导出所有进度、答题明细和编程提交为 JSON
+   - `buildProgressExport()`: 生成包含汇总记录的 JSON 数据结构
    - `importFromJSON()`: 从 JSON 恢复进度
-   - `exportToCSV()`: 导出选择题记录为 CSV
 
 ---
 
@@ -824,10 +824,9 @@ const testCases = [
 **依赖前置**：T05
 
 **实现要点**：
-1. JSON 导出：下载 progress JSON 文件
+1. JSON 导出：下载 progress JSON 文件，包含答题明细和编程提交记录
 2. JSON 导入：选择文件解析并恢复
-3. CSV 导出：选择题答题记录转为 CSV
-4. 错误处理：文件格式错误提示
+3. 错误处理：文件格式错误提示
 
 ---
 

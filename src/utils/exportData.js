@@ -1,14 +1,16 @@
 /**
  * 数据导出工具函数
- * 支持 JSON 和 CSV 格式
+ * 支持 JSON 格式
  */
 
 /**
- * 导出进度为 JSON 文件
+ * 导出完整进度为 JSON 文件
  * @param {Object} progress - 进度数据
+ * @param {Array} lessons - 课时数据
  */
-export function exportToJSON(progress) {
-  const dataStr = JSON.stringify(progress, null, 2);
+export function exportToJSON(progress, lessons = []) {
+  const data = buildProgressExport(progress, lessons);
+  const dataStr = JSON.stringify(data, null, 2);
   const dataBlob = new Blob([dataStr], { type: 'application/json' });
   const url = URL.createObjectURL(dataBlob);
   
@@ -19,6 +21,90 @@ export function exportToJSON(progress) {
   link.click();
   document.body.removeChild(link);
   URL.revokeObjectURL(url);
+}
+
+export function buildProgressExport(progress, lessons = []) {
+  const progressLessons = progress?.lessons || {};
+  const completedLessons = Object.values(progressLessons).filter(item => item?.completed).length;
+  const quizRecords = lessons.flatMap(lesson => {
+    const lessonProgress = progressLessons[lesson.id] || {};
+    return Array.isArray(lessonProgress.quizAnswers)
+      ? lessonProgress.quizAnswers.map(answer => ({
+          lessonId: lesson.id,
+          lessonTitle: lesson.title,
+          chapter: lesson.chapter,
+          ...answer
+        }))
+      : [];
+  });
+
+  const codingRecords = lessons
+    .map(lesson => {
+      const lessonProgress = progressLessons[lesson.id] || {};
+      if (!lessonProgress.codingCompleted && !lessonProgress.codingResults && !lessonProgress.lastRun) {
+        return null;
+      }
+
+      return {
+        lessonId: lesson.id,
+        lessonTitle: lesson.title,
+        chapter: lesson.chapter,
+        challengeTitle: lesson.student?.codingChallenge?.title || '',
+        passed: lessonProgress.codingPassed ?? null,
+        completed: lessonProgress.codingCompleted === true,
+        submittedAt: lessonProgress.codingSubmittedAt || null,
+        submittedCode: lessonProgress.submittedCode || '',
+        lastRun: lessonProgress.lastRun || null,
+        results: lessonProgress.codingResults || []
+      };
+    })
+    .filter(Boolean);
+
+  return {
+    ...progress,
+    exportVersion: 2,
+    exportedAt: new Date().toISOString(),
+    course: {
+      appName: 'YCL Python 四级互动教学课件',
+      totalLessons: lessons.length,
+      mainLessons: lessons.filter(lesson => lesson.type === 'main').length,
+      extendedLessons: lessons.filter(lesson => lesson.type === 'extended').length
+    },
+    summary: {
+      completedLessons,
+      totalLessons: lessons.length,
+      overallProgress: lessons.length ? Math.round((completedLessons / lessons.length) * 100) : 0,
+      quizRecordCount: quizRecords.length,
+      codingRecordCount: codingRecords.length
+    },
+    lessonRecords: lessons.map(lesson => {
+      const lessonProgress = progressLessons[lesson.id] || {};
+      return {
+        lessonId: lesson.id,
+        title: lesson.title,
+        chapter: lesson.chapter,
+        type: lesson.type,
+        difficulty: lesson.difficulty,
+        completed: lessonProgress.completed === true,
+        quiz: {
+          completed: lessonProgress.quizCompleted === true,
+          score: lessonProgress.quizScore ?? null,
+          answers: lessonProgress.quizAnswers || []
+        },
+        coding: {
+          completed: lessonProgress.codingCompleted === true,
+          passed: lessonProgress.codingPassed ?? null,
+          submittedAt: lessonProgress.codingSubmittedAt || null,
+          submittedCode: lessonProgress.submittedCode || '',
+          lastRun: lessonProgress.lastRun || null,
+          results: lessonProgress.codingResults || []
+        },
+        lastUpdated: lessonProgress.lastUpdated || null
+      };
+    }),
+    quizRecords,
+    codingRecords
+  };
 }
 
 /**
@@ -50,67 +136,6 @@ export function importFromJSON(file) {
     
     reader.readAsText(file);
   });
-}
-
-/**
- * 导出选择题答题记录为 CSV
- * @param {Object} progress - 进度数据
- * @param {Array} lessons - 课时数据
- */
-export function exportToCSV(progress, lessons) {
-  // CSV 表头
-  const headers = ['课时ID', '课时名称', '章节', '完成状态', '选择题得分', '编程题通过', '最后更新时间'];
-  
-  // 生成行数据
-  const rows = lessons.map(lesson => {
-    const lessonProgress = progress.lessons[lesson.id] || {};
-    return [
-      lesson.id,
-      lesson.title,
-      lesson.chapter,
-      lessonProgress.completed ? '已完成' : '未完成',
-      lessonProgress.quizScore !== undefined && lessonProgress.quizScore !== null 
-        ? `${lessonProgress.quizScore}%` 
-        : '-',
-      lessonProgress.codingPassed === true 
-        ? '通过' 
-        : lessonProgress.codingPassed === false 
-          ? '未通过' 
-          : '-',
-      lessonProgress.lastUpdated 
-        ? new Date(lessonProgress.lastUpdated).toLocaleString('zh-CN') 
-        : '-'
-    ];
-  });
-  
-  // 转义 CSV 特殊字符
-  const escapeCSV = (value) => {
-    if (value === null || value === undefined) return '';
-    const str = String(value);
-    if (str.includes(',') || str.includes('"') || str.includes('\n')) {
-      return `"${str.replace(/"/g, '""')}"`;
-    }
-    return str;
-  };
-  
-  // 生成 CSV 内容
-  const csvContent = [
-    headers.map(escapeCSV).join(','),
-    ...rows.map(row => row.map(escapeCSV).join(','))
-  ].join('\n');
-  
-  // 添加 BOM 以支持 Excel 打开 UTF-8 CSV
-  const bom = '\uFEFF';
-  const dataBlob = new Blob([bom + csvContent], { type: 'text/csv;charset=utf-8' });
-  const url = URL.createObjectURL(dataBlob);
-  
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = `ycl-python-quiz-record-${new Date().toISOString().split('T')[0]}.csv`;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  URL.revokeObjectURL(url);
 }
 
 /**

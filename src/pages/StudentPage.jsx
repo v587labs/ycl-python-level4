@@ -267,13 +267,15 @@ print(f"others: {others}")
   };
 
   // 处理选择题完成
-  const handleQuizComplete = (score) => {
+  const handleQuizComplete = (score, earnedPoints = 0, quizAnswers = []) => {
     setQuizScore(score);
     setQuizCompleted(true);
 
     updateProgress(lesson.id, {
       quizScore: score,
-      quizCompleted: true
+      quizCompleted: true,
+      quizEarnedPoints: earnedPoints,
+      quizAnswers
     });
 
     if (onComplete) {
@@ -283,15 +285,28 @@ print(f"others: {others}")
 
   // 处理代码运行（只看输出，不判题）
   const handleCodeRun = async (result) => {
+    const runRecord = {
+      success: result.success,
+      output: result.success ? result.output : null,
+      error: result.success ? null : (result.error || '运行失败'),
+      code: result.code || '',
+      ranAt: new Date().toISOString()
+    };
+
     setCodingResults([{
       label: '运行',
-      passed: result.success,
+      passed: runRecord.success,
       expected: null,
-      actual: result.success ? result.output : null,
-      error: result.success ? null : (result.error || '运行失败')
+      actual: runRecord.output,
+      error: runRecord.error
     }]);
     setShowResults(true);
     setCodingCompleted(false);
+
+    updateProgress(lesson.id, {
+      lastRun: runRecord,
+      codingCompleted: false
+    });
   };
 
   // 处理交卷（进行判题）
@@ -314,8 +329,10 @@ print(f"others: {others}")
       updateProgress(lesson.id, {
         codingPassed: true,
         codingCompleted: true,
+        codingResults: results,
+        submittedCode: result.code || '',
+        codingSubmittedAt: new Date().toISOString(),
         completed: true,
-        lastUpdated: new Date().toISOString()
       });
 
       if (onComplete) {
@@ -328,7 +345,9 @@ print(f"others: {others}")
       updateProgress(lesson.id, {
         codingPassed: false,
         codingCompleted: true,
-        lastUpdated: new Date().toISOString()
+        codingResults: results,
+        submittedCode: result.code || '',
+        codingSubmittedAt: new Date().toISOString()
       });
     }
   };

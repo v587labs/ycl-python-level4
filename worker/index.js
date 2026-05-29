@@ -20,9 +20,7 @@ export default {
     }
 
     const dataPromise = Promise.resolve(buildBootstrapData(env, url.pathname));
-    const shell = await env.ASSETS.fetch(
-      new Request(new URL('/index.html', request.url), request)
-    );
+    const shell = await env.ASSETS.fetch(request);
 
     if (!isHtmlResponse(shell)) {
       return shell;

@@ -762,7 +762,7 @@ flowchart LR
     subgraph Core["核心功能"]
         Pyodide["Pyodide<br/>即时判题"]
         Progress["localStorage<br/>进度保存"]
-        Import["导入/导出<br/>JSON/CSV"]
+        Import["导入/导出<br/>JSON"]
     end
 ```
 
@@ -781,9 +781,8 @@ flowchart LR
 | **判题系统** | 错误提示 | P1 | 运行时错误友好提示 |
 | **进度** | localStorage 存储 | P1 | 保存做题记录 |
 | **进度** | 进度可视化 | P1 | 已完成/未完成标识 |
-| **导入导出** | JSON 导出 | P2 | 导出所有记录 |
+| **导入导出** | JSON 导出 | P2 | 导出所有进度、答题明细和编程提交记录 |
 | **导入导出** | JSON 导入 | P2 | 恢复记录 |
-| **导入导出** | CSV 导出 | P2 | 导出选择题答题记录 |
 
 ### 3.3 用户流程
 

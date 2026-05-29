@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import LessonCard from '../components/LessonCard';
 import lessons from '../data/lessons';
 import { useApp } from '../context/AppContext';
-import { exportToJSON, importFromJSON, exportToCSV } from '../utils/exportData';
+import { exportToJSON, importFromJSON } from '../utils/exportData';
 
 function Home() {
   const { progress, importProgress, getOverallProgress } = useApp();
@@ -114,8 +114,8 @@ function Home() {
         </section>
 
         <section className="file-actions">
-          <button onClick={() => exportToJSON(progress)} className="btn btn-secondary text-sm">
-            导出进度 JSON
+          <button onClick={() => exportToJSON(progress, lessons)} className="btn btn-secondary text-sm">
+            导出完整 JSON
           </button>
 
           <label className="btn btn-secondary text-sm cursor-pointer">
@@ -128,10 +128,6 @@ function Home() {
               className="hidden"
             />
           </label>
-
-          <button onClick={() => exportToCSV(progress, lessons)} className="btn btn-secondary text-sm">
-            导出答题 CSV
-          </button>
         </section>
       </div>
     </div>
