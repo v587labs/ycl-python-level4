@@ -52,7 +52,7 @@ npm run worker:deploy
 
 ### GitHub Actions 自动部署
 
-仓库包含 `.github/workflows/deploy-cloudflare.yml`。每次有新代码 push 到 `main` 分支时，GitHub Actions 会自动执行 `npm ci` 和 `npm run worker:deploy`。
+仓库包含 `.github/workflows/deploy-cloudflare.yml`。每次有新代码 push 到 `main` 分支时，GitHub Actions 会使用 Node.js 22 自动执行 `npm ci` 和 `npm run worker:deploy`。
 
 需要在 GitHub 仓库的 `Settings` → `Secrets and variables` → `Actions` 中添加两个 Repository secrets：
 
