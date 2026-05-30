@@ -41,7 +41,8 @@ export function buildProgressExport(progress, lessons = []) {
   const codingRecords = lessons
     .map(lesson => {
       const lessonProgress = progressLessons[lesson.id] || {};
-      if (!lessonProgress.codingCompleted && !lessonProgress.codingResults && !lessonProgress.lastRun) {
+      const hasDraft = typeof lessonProgress.draftCode === 'string' && lessonProgress.draftCode.length > 0;
+      if (!lessonProgress.codingCompleted && !lessonProgress.codingResults && !lessonProgress.lastRun && !hasDraft) {
         return null;
       }
 
@@ -54,6 +55,8 @@ export function buildProgressExport(progress, lessons = []) {
         completed: lessonProgress.codingCompleted === true,
         submittedAt: lessonProgress.codingSubmittedAt || null,
         submittedCode: lessonProgress.submittedCode || '',
+        draftCode: lessonProgress.draftCode || '',
+        draftUpdatedAt: lessonProgress.draftUpdatedAt || null,
         lastRun: lessonProgress.lastRun || null,
         results: lessonProgress.codingResults || []
       };
@@ -96,6 +99,8 @@ export function buildProgressExport(progress, lessons = []) {
           passed: lessonProgress.codingPassed ?? null,
           submittedAt: lessonProgress.codingSubmittedAt || null,
           submittedCode: lessonProgress.submittedCode || '',
+          draftCode: lessonProgress.draftCode || '',
+          draftUpdatedAt: lessonProgress.draftUpdatedAt || null,
           lastRun: lessonProgress.lastRun || null,
           results: lessonProgress.codingResults || []
         },

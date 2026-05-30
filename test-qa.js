@@ -7,6 +7,7 @@ import { spawnSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
 import lessons from './src/data/lessons.js';
 import * as judgeModule from './src/utils/judge.js';
+import { buildProgressExport } from './src/utils/exportData.js';
 
 const EXPECTED_TOTAL = 30;
 const EXPECTED_MAIN = 14;
@@ -111,6 +112,24 @@ function validateJudgeExports() {
   check('normalizeOutput 处理空值', judgeModule.normalizeOutput(null) === '');
 }
 
+function validateProgressExport() {
+  const exportData = buildProgressExport({
+    userId: 'qa-user',
+    lessons: {
+      2: {
+        draftCode: 'name = input()',
+        draftUpdatedAt: '2026-05-30T00:00:00.000Z'
+      }
+    }
+  }, lessons);
+
+  const lessonRecord = exportData.lessonRecords.find(record => record.lessonId === 2);
+  const codingRecord = exportData.codingRecords.find(record => record.lessonId === 2);
+
+  check('导出 JSON 包含代码草稿', lessonRecord?.coding?.draftCode === 'name = input()');
+  check('草稿未交卷也进入 codingRecords', codingRecord?.draftCode === 'name = input()');
+}
+
 function runStarterCode() {
   const starterIssues = [];
 
@@ -156,6 +175,7 @@ validateCourseShape();
 validateContentBoundaries();
 validateVisualAssets();
 validateJudgeExports();
+validateProgressExport();
 runStarterCode();
 
 console.log('====================================');

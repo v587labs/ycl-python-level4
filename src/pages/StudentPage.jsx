@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import AceEditor from 'react-ace';
 import Quiz from '../components/Quiz';
@@ -154,6 +154,7 @@ function StudentPage({ lesson, onComplete }) {
   const [showResults, setShowResults] = useState(false);
 
   const { runCode, isLoading } = usePyodide();
+  const lessonProgress = getProgress(lesson.id);
 
   // 从 localStorage 恢复进度状态
   useEffect(() => {
@@ -169,7 +170,7 @@ function StudentPage({ lesson, onComplete }) {
         setCodingCompleted(true);
       }
     }
-  }, [lesson.id, getProgress]);
+  }, [lesson.id, lessonProgress]);
 
   // 编程题模板代码
   const getTemplateCode = () => {
@@ -264,6 +265,19 @@ print(f"others: {others}")
       default:
         return '# 请编写代码\n\n';
     }
+  };
+
+  const templateCode = getTemplateCode();
+  const initialDraftCode = useMemo(() => {
+    const savedProgress = getProgress(lesson.id);
+    return typeof savedProgress?.draftCode === 'string' ? savedProgress.draftCode : '';
+  }, [lesson.id]);
+
+  const handleCodeChange = (code) => {
+    updateProgress(lesson.id, {
+      draftCode: code,
+      draftUpdatedAt: new Date().toISOString()
+    });
   };
 
   // 处理选择题完成
@@ -458,7 +472,9 @@ print(f"others: {others}")
             {/* 右侧：编辑器 */}
             <div className="coding-editor-pane">
               <CodeEditor
-                template={getTemplateCode()}
+                template={templateCode}
+                initialCode={initialDraftCode}
+                onCodeChange={handleCodeChange}
                 onRun={handleCodeRun}
                 onSubmit={handleSubmit}
                 language="python"

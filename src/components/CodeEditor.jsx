@@ -12,6 +12,7 @@ function CodeEditor({
   initialCode = '',
   onRun,
   onSubmit,
+  onCodeChange,
   placeholder = '# 在这里编写你的代码',
   language = 'python',
   compact = false
@@ -45,6 +46,13 @@ function CodeEditor({
     setLastResult(null);
     setShowOutput(false);
   }, [template, exampleCode, emptyCode]);
+
+  const handleCodeChange = (nextCode) => {
+    setCode(nextCode);
+    if (onCodeChange) {
+      onCodeChange(nextCode);
+    }
+  };
 
   // 处理运行代码
   const handleRun = async () => {
@@ -90,7 +98,7 @@ function CodeEditor({
 
   // 处理重置
   const handleReset = () => {
-    setCode(emptyCode);
+    handleCodeChange('');
     setOutput('');
     setLastResult(null);
     setShowOutput(false);
@@ -99,7 +107,7 @@ function CodeEditor({
   // 查看示例时才把参考代码放进编辑器
   const handleShowExample = () => {
     if (!sampleCode.trim()) return;
-    setCode(sampleCode);
+    handleCodeChange(sampleCode);
     setOutput('');
     setLastResult(null);
     setShowOutput(false);
@@ -158,7 +166,7 @@ function CodeEditor({
       <div className="editor-body">
         <AceEditor
           value={code}
-          onChange={setCode}
+          onChange={handleCodeChange}
           mode="python"
           theme="github_light_default"
           name="python-lesson-editor"
