@@ -1602,6 +1602,10 @@ body {
   overflow: auto;
 }
 
+.presenter-stage.note-hidden {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .presenter-slide,
 .presenter-note {
   border: 1px solid rgba(228, 231, 236, 0.95);

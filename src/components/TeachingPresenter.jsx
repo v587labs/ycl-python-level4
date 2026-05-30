@@ -48,12 +48,14 @@ function TeachingPresenter({ lesson, onClose }) {
   }, [lesson]);
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isTeacherNoteVisible, setIsTeacherNoteVisible] = useState(false);
   const current = slides[currentIndex];
   const isFirst = currentIndex === 0;
   const isLast = currentIndex === slides.length - 1;
 
   const goPrev = () => setCurrentIndex(index => Math.max(0, index - 1));
   const goNext = () => setCurrentIndex(index => Math.min(slides.length - 1, index + 1));
+  const toggleTeacherNote = () => setIsTeacherNoteVisible(visible => !visible);
 
   useEffect(() => {
     const onKeyDown = (event) => {
@@ -125,12 +127,20 @@ function TeachingPresenter({ lesson, onClose }) {
           <strong>{lesson.title}</strong>
         </div>
         <div className="presenter-topbar-actions">
+          <button
+            type="button"
+            onClick={toggleTeacherNote}
+            aria-expanded={isTeacherNoteVisible}
+            aria-controls="presenter-teacher-note"
+          >
+            {isTeacherNoteVisible ? '隐藏提示' : '显示提示'}
+          </button>
           <button onClick={enterFullscreen}>全屏</button>
           <button onClick={onClose}>退出</button>
         </div>
       </div>
 
-      <main className="presenter-stage">
+      <main className={`presenter-stage ${isTeacherNoteVisible ? '' : 'note-hidden'}`}>
         <section className={`presenter-slide ${current.image ? 'has-image' : ''}`}>
           {current.kicker && <span className="presenter-kicker">{current.kicker}</span>}
           <h2>{current.title}</h2>
@@ -165,16 +175,18 @@ function TeachingPresenter({ lesson, onClose }) {
           )}
         </section>
 
-        <aside className="presenter-note">
-          <span>老师提示</span>
-          {renderTeacherNote(current.teacherNote)}
-          {current.check && (
-            <div className="presenter-check">
-              <strong>检查点</strong>
-              <p>{current.check}</p>
-            </div>
-          )}
-        </aside>
+        {isTeacherNoteVisible && (
+          <aside id="presenter-teacher-note" className="presenter-note">
+            <span>老师提示</span>
+            {renderTeacherNote(current.teacherNote)}
+            {current.check && (
+              <div className="presenter-check">
+                <strong>检查点</strong>
+                <p>{current.check}</p>
+              </div>
+            )}
+          </aside>
+        )}
       </main>
 
       <div className="presenter-footer">
