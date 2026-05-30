@@ -68,7 +68,7 @@ const lessonVisualKeys = {
 };
 
 export function withLessonVisual(lesson) {
-  const key = lessonVisualKeys[lesson.id];
+  const key = lesson.visualKey || lessonVisualKeys[lesson.sourceId ?? lesson.id];
   if (!key) return lesson;
 
   return {

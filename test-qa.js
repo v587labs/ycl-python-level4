@@ -8,8 +8,8 @@ import { existsSync } from 'node:fs';
 import lessons from './src/data/lessons.js';
 import * as judgeModule from './src/utils/judge.js';
 
-const EXPECTED_TOTAL = 29;
-const EXPECTED_MAIN = 13;
+const EXPECTED_TOTAL = 30;
+const EXPECTED_MAIN = 14;
 const EXPECTED_EXTENDED = 16;
 
 const failures = [];

@@ -19,8 +19,8 @@ const lesson12 = {
     concepts: [
       {
         name: "知识点大盘点",
-        definition: "课时0认识Python和print；第1课变量/input；第2课数据类型和运算符；第3课数字运算；第4课字符串；第5课顺序结构；第6课if选择；第7课for循环；第8课while循环；第9课函数；第10课作用域和模块；第11课文件和异常。",
-        illustration: "一个大地图，上面标记着0-12课的知识点宝藏"
+        definition: "课时0认识Python和print；第1课认识Python安装和IDLE编辑器；第2课变量/input；第3课数据类型和运算符；第4课数字运算；第5课字符串；第6课顺序结构；第7课if选择；第8课for循环；第9课while循环；第10课函数；第11课作用域和模块；第12课文件和异常。",
+        illustration: "一个大地图，上面标记着0-13课的知识点宝藏"
       },
       {
         name: "考试易错点提醒",

@@ -88,7 +88,7 @@ python-ycl-level4/
 │   │   └── AppContext.jsx         # 全局状态（模式、进度）
 │   │
 │   ├── data/                      # 课程数据
-│   │   └── lessons.js             # 29 课时完整数据
+│   │   └── lessons.js             # 30 课时完整数据
 │   │
 │   ├── utils/                     # 工具函数
 │   │   ├── judge.js               # 判题逻辑
@@ -130,7 +130,7 @@ python-ycl-level4/
 
 | 文件 | 职责 | 关键逻辑 |
 |------|------|---------|
-| `Home.jsx` | 首页、课时列表展示 | 渲染 29 个 LessonCard，区分主线/拓展并读取进度显示完成状态 |
+| `Home.jsx` | 首页、课时列表展示 | 渲染 30 个 LessonCard，区分主线/拓展并读取进度显示完成状态 |
 | `Lesson.jsx` | 课时容器、分发模式 | 根据 mode 显示 TeacherPage 或 StudentPage |
 | `TeacherPage.jsx` | 教师页、概念讲解 | 渲染 Markdown 内容、概念卡片、代码示例、错误提醒 |
 | `StudentPage.jsx` | 学生页、练习答题 | 渲染 Quiz + CodeEditor，管理答题状态 |
@@ -159,7 +159,7 @@ python-ycl-level4/
 
 | 文件 | 职责 | 关键逻辑 |
 |------|------|---------|
-| `lessons.js` | 29 课时完整数据 | 导出序章、四级主线和拓展挑战的教师页/学生页内容 |
+| `lessons.js` | 30 课时完整数据 | 导出序章、四级主线和拓展挑战的教师页/学生页内容 |
 | `AppContext.jsx` | 全局状态管理 | 存储当前用户模式、进度数据 |
 | `judge.js` | 判题逻辑 | executeCode()、compareOutput()、formatError() |
 | `exportData.js` | 导入导出 | exportToJSON()、buildProgressExport()、importFromJSON() |
@@ -538,7 +538,7 @@ const testCases = [
 **依赖前置**：T01
 
 **实现要点**：
-1. 按 PRD 定义的 29 课时结构创建数据，其中课时 0-12 是主线，课时 13-28 是拓展
+1. 按 PRD 定义的 30 课时结构创建数据，其中课时 0-1 是序章，课时 2-13 是四级主线，课时 14-29 是拓展
 2. 每个课时包含：
    - `id`, `title`, `chapter`
    - `examTopics`（考试考点）
@@ -984,7 +984,7 @@ graph LR
 
 ### 10.4 选择题数据
 
-- 29 课时 × 3-5 道选择题，主线题与拓展题都保存在课程数据中
+- 30 课时 × 3-5 道选择题，主线题与拓展题都保存在课程数据中
 - 答案直接存储在 JSON 中（前端无需隐藏）
 
 ---
@@ -993,7 +993,7 @@ graph LR
 
 | 验收项 | 对应任务 | 状态 |
 |-------|---------|-----|
-| 课程覆盖 29 课时并区分主线/拓展 | T02 | 🔄 待实现 |
+| 课程覆盖 30 课时并区分主线/拓展 | T02 | 🔄 待实现 |
 | 判题功能正常 | T06, T12, T13 | 🔄 待实现 |
 | 教师页完整 | T10 | 🔄 待实现 |
 | 学生页完整 | T14 | 🔄 待实现 |

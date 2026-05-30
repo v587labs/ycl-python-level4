@@ -710,7 +710,7 @@ function buildAgeAdaptation(plan) {
 }
 
 export function withTeachingExtensions(lesson) {
-  const plan = extensionPlans[lesson.id];
+  const plan = extensionPlans[lesson.sourceId ?? lesson.id];
   if (!plan) return lesson;
 
   const teacher = lesson.teacher || {};

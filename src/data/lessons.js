@@ -1,10 +1,11 @@
 /**
  * YCL Python 四级互动教学课件 - 课程数据
  * 严格对齐《人工智能编程水平测试(四级Python)》教材 PRD v1.0
- * 29课时体系：序章 + 12节四级主线 + 16节拓展挑战
+ * 30课时体系：2节序章 + 12节四级主线 + 16节拓展挑战
  */
 
 import lesson00 from './lessons/lesson-00.js';
+import lesson01Editor from './lessons/lesson-01-editor.js';
 import lesson01 from './lessons/lesson-01.js';
 import lesson02 from './lessons/lesson-02.js';
 import lesson03 from './lessons/lesson-03.js';
@@ -38,6 +39,7 @@ import { withLessonVisual } from './lessonVisuals.js';
 
 const baseLessons = [
   lesson00,
+  lesson01Editor,
   lesson01,
   lesson02,
   lesson03,
@@ -68,6 +70,12 @@ const baseLessons = [
   lesson28
 ];
 
-const lessons = baseLessons.map(lesson => withTeachingExtensions(withLessonVisual(lesson)));
+const lessons = baseLessons
+  .map((lesson, index) => ({
+    ...lesson,
+    sourceId: lesson.sourceId ?? lesson.id,
+    id: index
+  }))
+  .map(lesson => withTeachingExtensions(withLessonVisual(lesson)));
 
 export default lessons;
