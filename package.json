@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "book:generate": "node scripts/generate-book.mjs",
     "preview": "vite preview",
     "worker:dev": "npm run build && wrangler dev",
     "worker:deploy": "npm run build && wrangler deploy",
