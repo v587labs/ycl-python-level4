@@ -110,6 +110,22 @@ function CodeBlock({ code, language = 'python', showLineNumbers = false }) {
           padding-left: 1rem;
         }
 
+        .code-block-container pre::selection,
+        .code-block-container code::selection,
+        .code-block-container code *::selection {
+          background: rgba(37, 99, 235, 0.82);
+          color: #f8fafc;
+          text-shadow: none;
+        }
+
+        .code-block-container pre::-moz-selection,
+        .code-block-container code::-moz-selection,
+        .code-block-container code *::-moz-selection {
+          background: rgba(37, 99, 235, 0.82);
+          color: #f8fafc;
+          text-shadow: none;
+        }
+
         .code-line-numbers {
           position: absolute;
           left: 0;
