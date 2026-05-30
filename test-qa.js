@@ -86,7 +86,10 @@ function validateContentBoundaries() {
 
 function validateVisualAssets() {
   const visualLessons = lessons.filter(lesson => lesson.visual);
-  check('关键课时已配置图片', visualLessons.length >= 24, `${visualLessons.length} 个课时有图片`);
+  check('全部课时已配置图片', visualLessons.length === lessons.length, `${visualLessons.length}/${lessons.length}`);
+
+  const uniqueVisualCount = new Set(visualLessons.map(lesson => lesson.visual.src)).size;
+  check('课程图片足够丰富', uniqueVisualCount >= 20, `${uniqueVisualCount} 张不同图片`);
 
   const missingAssets = visualLessons
     .map(lesson => lesson.visual.src)

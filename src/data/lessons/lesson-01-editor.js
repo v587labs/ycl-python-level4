@@ -6,7 +6,7 @@
 const lesson01Editor = {
   id: 1,
   sourceId: 'editor',
-  visualKey: 'intro',
+  visualKey: 'editor',
   title: "Python安装与IDLE编辑器",
   chapter: "序章",
   type: "main",
