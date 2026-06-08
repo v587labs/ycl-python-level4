@@ -2,7 +2,7 @@ const note = (title, lines) => ({ title, lines });
 
 const extensionPlans = {
   3: {
-    previous: "第2课我们学会了：input听到的先是文字，要用int()变成数字才能计算。",
+    previous: "上一课我们学会了：input听到的先是文字，要用int()变成数字才能计算。",
     core: "今天继续做数字运算，但不急着背公式。我们用“分糖果”的故事理解整除和余数。",
     metaphor: "数字工具箱",
     keyCode: "print(17 // 5)\nprint(17 % 5)",
@@ -12,8 +12,8 @@ const extensionPlans = {
     commonTrap: "孩子会把/、//、%混在一起；先用糖果实物分清“每人几个”和“剩几个”。",
     next: "下一课进入字符串，孩子会看到文字也能像一串珠子一样被编号和切开。",
     board: [
-      "第2课：数字能计算，文字数字要先int()",
-      "第3课：数字工具箱更丰富",
+      "文字数字要先int()，才能当数字计算",
+      "数字工具箱更丰富",
       "17 // 5 = 每人分到几颗",
       "17 % 5 = 还剩几颗",
       "round()四舍五入，abs()去掉负号"
@@ -58,7 +58,7 @@ const extensionPlans = {
     parent: "今天孩子学习程序的顺序执行。可以请孩子说出早晨三步：起床、刷牙、上学，再对应三行print。"
   },
   6: {
-    previous: "第5课我们学会了电脑从上到下一步步做。",
+    previous: "上一课我们学会了电脑从上到下一步步做。",
     core: "今天电脑学会看情况：如果条件成立，就走一条路；否则，走另一条路。",
     metaphor: "路口小交警",
     keyCode: "score = int(input())\nif score >= 60:\n    print(\"及格啦\")\nelse:\n    print(\"继续加油\")",
@@ -77,7 +77,7 @@ const extensionPlans = {
     parent: "今天孩子学习if/else选择结构。家长可以问：如果分数>=60输出什么？否则输出什么？"
   },
   7: {
-    previous: "第6课电脑会根据条件走不同路。",
+    previous: "上一课电脑会根据条件走不同路。",
     core: "今天电脑学会重复做事。for循环适合“我知道要做几次”的任务。",
     metaphor: "重复盖章机",
     keyCode: "for i in range(5):\n    print(\"★\")",
@@ -95,7 +95,7 @@ const extensionPlans = {
     parent: "今天孩子学习for循环。可以问孩子：range(3)会数哪几个数？答案是0、1、2。"
   },
   8: {
-    previous: "第7课我们用for循环重复固定次数。",
+    previous: "上一课我们用for循环重复固定次数。",
     core: "今天学习while循环：只要条件还成立，就继续做；条件不成立才停。",
     metaphor: "红绿灯和停止按钮",
     keyCode: "i = 1\nwhile i <= 5:\n    print(i)\n    i = i + 1",
@@ -133,7 +133,7 @@ const extensionPlans = {
     parent: "今天孩子学习函数。可以问：def是在建工厂，还是在开工厂？函数名加括号才是调用。"
   },
   10: {
-    previous: "第9课我们会自己做函数小工厂。",
+    previous: "前面我们会自己做函数小工厂。",
     core: "今天学习两件事：函数里的变量有自己的小房间；模块是别人准备好的工具箱。",
     metaphor: "小房间和工具箱",
     keyCode: "import random\nprint(random.randint(1, 6))",
@@ -208,7 +208,7 @@ const extensionPlans = {
     parent: "今天孩子认识Turtle画图。可以让孩子用身体演示：前进、左转、右转。"
   },
   14: {
-    previous: "第13课小画笔会前进和转弯。",
+    previous: "上一课小画笔会前进和转弯。",
     core: "正方形是4条边和4个90度角。重复“走一段、转90度”4次就画好了。",
     metaphor: "四条边的操场",
     keyCode: "for i in range(4):\n    t.forward(100)\n    t.right(90)",
@@ -226,7 +226,7 @@ const extensionPlans = {
     parent: "今天孩子用for循环画正方形。重点是理解：循环里同时包含前进和转弯。"
   },
   15: {
-    previous: "第14课用循环画了正方形。",
+    previous: "上一课用循环画了正方形。",
     core: "五角星也是重复画出来的：走一段，转144度，重复5次。",
     metaphor: "星星路线图",
     keyCode: "for i in range(5):\n    t.forward(120)\n    t.right(144)",

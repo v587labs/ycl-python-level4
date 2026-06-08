@@ -14,6 +14,11 @@ const visuals = {
     alt: '用有名字的小盒子解释变量保存内容',
     caption: '变量像有名字的小盒子'
   },
+  input: {
+    src: '/course-visuals/variables-boxes.png',
+    alt: '用输入箭头把同学说的话放进变量盒子',
+    caption: 'input输入：听到内容，再放进变量盒子'
+  },
   dataTypes: {
     src: '/course-visuals/data-types.png',
     alt: '整数、小数、字符串、布尔和运算符积木',
@@ -144,6 +149,7 @@ const visuals = {
 const lessonVisualKeys = {
   0: 'intro',
   1: 'variables',
+  input: 'input',
   2: 'dataTypes',
   3: 'numberTools',
   4: 'stringBeads',

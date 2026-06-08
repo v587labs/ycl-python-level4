@@ -70,7 +70,7 @@ function Home() {
           <div className="hero-copy">
             <span className="section-kicker">Python Level 4</span>
             <h1>一套可投屏、可练习、可导出的互动课件</h1>
-            <p>课时 0-1 是序章，课时 2-13 覆盖四级主线，课时 14-29 是拓展挑战；课堂讲解和学生编程练习共用同一份进度。</p>
+            <p>课时 0-1 是序章，课时 2-14 覆盖四级主线，课时 15-30 是拓展挑战；课堂讲解和学生编程练习共用同一份进度。</p>
           </div>
 
           <div className="progress-panel">

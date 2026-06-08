@@ -9,8 +9,8 @@ import lessons from './src/data/lessons.js';
 import * as judgeModule from './src/utils/judge.js';
 import { buildProgressExport } from './src/utils/exportData.js';
 
-const EXPECTED_TOTAL = 30;
-const EXPECTED_MAIN = 14;
+const EXPECTED_TOTAL = 31;
+const EXPECTED_MAIN = 15;
 const EXPECTED_EXTENDED = 16;
 
 const failures = [];
